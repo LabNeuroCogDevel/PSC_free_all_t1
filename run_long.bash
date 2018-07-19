@@ -7,7 +7,7 @@ export SUBJECTS_DIR=$SCRATCH/FS
 [ ! -d $SCRATCH/joblog/ ] && mkdir $SCRATCH/joblog/
 logfile="$SCRATCH/joblog/long-%A_%a.out" 
 
-ls -d $SUBJECTS_DIR/1*_*/ |
+ls -d $SUBJECTS_DIR/1*_[0-9]*/ |
  perl -lne 'print $1 if m:/(1\d{4})_:' |
  sort |
  uniq -c |

@@ -3,7 +3,7 @@
 #SBATCH -N 1
 #SBATCH -p RM
 #SBATCH --ntasks-per-node 1
-#SBATCH -t 24:00:00
+#SBATCH -t 30:00:00
 
 #
 # test usage
@@ -18,8 +18,9 @@ source $FREESURFER_HOME/FreeSurferEnv.sh
 
 [ -z "$SUBJ" ] && echo "bad input SUBJ '$SUBJ' REP_DCM '$REP_DCM'" && exit 1
 
+# build comdargs -- append new timepoint
 cmdargs=""
-for d in $SUBJECTS_DIR/${SUBJ}_*; do
+for d in $SUBJECTS_DIR/${SUBJ}_[0-9]*; do
   # all dirs need to be complete
   logfile=$d/scripts/recon-all.log
   ! grep  'finished without error' $logfile >/dev/null && echo "$SUBJ: incomplete; see $logfile" && exit 1
@@ -27,4 +28,11 @@ for d in $SUBJECTS_DIR/${SUBJ}_*; do
 done
 [ -z "$cmdargs" ] && echo "$SUBJ: no dirs in $SUBJECTS_DIR!" && exit 1
 
-echo "recon-all -base base_$SUBJ $cmdargs -all"
+# generate template
+recon-all -base base_$SUBJ $cmdargs -all
+
+# longitudinally process all timepoints
+for d in $SUBJECTS_DIR/${SUBJ}_[0-9]*; do
+  recon-all -long $(basename $d)  base_$SUBJ  -all
+done
+
