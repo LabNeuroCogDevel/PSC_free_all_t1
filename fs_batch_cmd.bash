@@ -14,7 +14,7 @@ source $FREESURFER_HOME/FreeSurferEnv.sh
 [ -z "$SUBJ" -o -z "$REP_DCM" ] && echo "bad input SUBJ '$SUBJ' REP_DCM '$REP_DCM'" && exit 1
 if [ -d $SUBJECTS_DIR/$SUBJ ]; then
      echo "$SUBJ: have $SUBJECTS_DIR/$SUBJ "
-     recon-all  -all -s $SUBJ 
+     recon-all  -all -s $SUBJ -no-isrunning
 else
      recon-all  -all -s $SUBJ -i  $REP_DCM 
 fi

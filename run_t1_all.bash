@@ -12,11 +12,19 @@ for d in $SCRATCH/t1s/*/; do
    export REP_DCM=$(find $d -maxdepth 1 -type f -print -quit)
    export SUBJ=$(basename $d)
    [ -z "$REP_DCM" ] && echo "$SUBJ: missing dicoms" && continue
-   grep 'finished without error' $SUBJECTS_DIR/$SUBJ/scripts/recon-all.log 2>/dev/null >/dev/null && 
+   fslog=$SUBJECTS_DIR/$SUBJ/scripts/recon-all.log
+   grep 'finished without error' $fslog 2>/dev/null >/dev/null && 
     continue
 
    # submit to queue
-   [ -n "$DRYRUN" ] && echo would run "$SUBJ $REP_DCM" && continue
+   if [ -n "$DRYRUN" ]; then 
+     echo "export SUBJ=$SUBJ"
+     echo "  sbatch -o $logfile -e $logfile -J $SUBJ fs_batch_cmd.bash # $SUBJ $REP_DCM"
+     [ ! -r $fslog ] && continue
+     (du -hcs $SUBJECTS_DIR/$SUBJ/; ls -l $fslog;echo; tail -n2 $fslog) | sed 's/^/   /'
+     echo; echo;
+     continue
+   fi
    sbatch -o $logfile -e $logfile -J $SUBJ fs_batch_cmd.bash # $SUBJ $REP_DCM
 
    # todo remove this and run for all

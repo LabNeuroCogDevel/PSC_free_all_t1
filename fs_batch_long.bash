@@ -29,7 +29,7 @@ done
 [ -z "$cmdargs" ] && echo "$SUBJ: no dirs in $SUBJECTS_DIR!" && exit 1
 
 # generate template
-recon-all -base base_$SUBJ $cmdargs -all
+recon-all -base base_$SUBJ $cmdargs -all  -no-isrunning
 
 # longitudinally process all timepoints
 for d in $SUBJECTS_DIR/${SUBJ}_[0-9]*; do
