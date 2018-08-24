@@ -20,7 +20,7 @@ grep -Li 'finished without e' scratch/FS/*long.base*/scripts/recon-all.log |
      #echo base_$SUBJ did not finish
      [ $(squeue -A $(id -gn) -n base_$SUBJ | wc -l) -gt 1 ] && echo "base_$SUBJ: already in queue!" && continue
 
-     #echo -n "SUBJ=$SUBJ "
+     echo -n "SUBJ=$SUBJ "
      echo sbatch -o $logfile -e $logfile -J base_$SUBJ fs_batch_long.bash 
      continue
    fi

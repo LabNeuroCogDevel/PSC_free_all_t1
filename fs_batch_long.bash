@@ -3,7 +3,7 @@
 #SBATCH -N 1
 #SBATCH -p RM
 #SBATCH --ntasks-per-node 1
-#SBATCH -t 30:00:00
+#SBATCH -t 40:00:00
 
 #
 # test usage

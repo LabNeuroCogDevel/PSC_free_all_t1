@@ -29,7 +29,13 @@ ls -d $SUBJECTS_DIR/1*_[0-9]*/ | grep -v long.base |
   
   # RUN
   export SUBJ=$subj 
-  echo $SUBJ
-  sbatch -o $logfile -e $logfile -J base_$SUBJ fs_batch_long.bash # $SUBJ
+  if [ -n "$DRYRUN" ]; then
+      echo $SUBJ
+      sbatch -o $logfile -e $logfile -J base_$SUBJ fs_batch_long.bash # $SUBJ
+  else
+      echo "export SUBJ=$SUBJ"
+      echo "sbatch -o $logfile -e $logfile -J base_$SUBJ fs_batch_long.bash"
+  fi
+
 done
 
