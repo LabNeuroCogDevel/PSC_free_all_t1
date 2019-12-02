@@ -32,7 +32,7 @@ for d in $SCRATCH/PNC/mprage/*/; do
      echo; echo;
      continue
    fi
-   sbatch -o $logfile -e $logfile -J $SUBJ fs_batch_cmd.bash # $SUBJ $REP_DCM
+   sbatch -o $logfile -e $logfile -J $SUBJ fs_batch_cmd.bash # $SUBJ $REP_DCM $SUBJECTS_DIR
 
    # todo remove this and run for all
 done

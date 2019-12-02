@@ -10,7 +10,7 @@
 # SUBJ=1024 bash fs_bach_long.bash
 #
 
-export FREESURFER_HOME=$HOME/bin/freesurfer/
+export FREESURFER_HOME=$SCRATCH/bin/freesurfer/
 export SUBJECTS_DIR=$SCRATCH/FS
 [ ! -d $SUBJECTS_DIR ] && mkdir -p $SUBJECTS_DIR
 
@@ -30,6 +30,10 @@ done
 
 # generate template
 recon-all -base base_$SUBJ $cmdargs -all  -no-isrunning
+
+logfile=$SUBJECTS_DIR/base_$SUBJ/scripts/recon-all.log 
+! grep  'finished without error' $logfile >/dev/null && echo "base_$SUBJ: incomplete; not running long versions see $logfile" && exit 1
+
 
 # longitudinally process all timepoints
 for d in $SUBJECTS_DIR/${SUBJ}_[0-9]*; do
