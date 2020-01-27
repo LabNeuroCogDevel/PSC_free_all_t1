@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 #SBATCH -N 1
-#SBATCH -p RM
+#SBATCH -p RM-shared
 #SBATCH --ntasks-per-node 1
 #SBATCH -t 3:00:00
 
